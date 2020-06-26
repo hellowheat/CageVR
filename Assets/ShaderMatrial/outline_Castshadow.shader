@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
-Shader "Unlit/outline_2"
+Shader "Unlit/outline_castShadow"
 {
     Properties
     {
@@ -12,7 +12,6 @@ Shader "Unlit/outline_2"
 		_Shadow2_Depth("Shadow 2 Color Depth", Range(0,1)) = 1
 		_Shadow2_Radio("Shadow 2 Radio", Range(-1,1)) = -0.5
 		_Shadow3_Depth("Shadow 3 Color Depth", Range(0,1)) = 1
-		_CastShadow("is Cast Shadow" , Range(-1,1)) = 1
     }
     SubShader
     {
