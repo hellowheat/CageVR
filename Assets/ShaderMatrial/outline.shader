@@ -25,8 +25,6 @@ Shader "Unlit/outline"
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			// make fog work
-			#pragma multi_compile_fog
 
 			#include "UnityCG.cginc"
 			struct appdata
@@ -39,6 +37,7 @@ Shader "Unlit/outline"
 			struct v2f
 			{
 				float4 vertex : SV_POSITION;
+				UNITY_FOG_COORDS(1)
 			};
 
 			float _Width;
@@ -49,12 +48,15 @@ Shader "Unlit/outline"
 				v2f o;
 				v.vertex.xyz += v.normal.xyz * _Width;
 				o.vertex = UnityObjectToClipPos(v.vertex);
+				UNITY_TRANSFER_FOG(o, o.vertex);
 				return o;
 			}
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				return _Color;
+				fixed4 col = _Color;
+				UNITY_APPLY_FOG(i.fogCoord, col);
+				return col;
 			}
 			ENDCG
 		}
@@ -80,7 +82,8 @@ Shader "Unlit/outline"
             {
                 float2 uv : TEXCOORD0;
                 float4 pos: SV_POSITION;
-				float3 objectLightPos : TEXCOORD1;
+				UNITY_FOG_COORDS(1)
+				float3 objectLightPos : TEXCOORD4;
 				float3 normal : NORMAL;
             };
 
@@ -100,6 +103,7 @@ Shader "Unlit/outline"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.normal = v.normal;
 				o.objectLightPos = normalize(mul(unity_WorldToObject, _WorldSpaceLightPos0));
+				UNITY_TRANSFER_FOG(o, o.pos);
 				return o;
             }
 
@@ -114,6 +118,7 @@ Shader "Unlit/outline"
 				else if (diffuse >= _Shadow2_Radio)col.xyz *= _Shadow2_Depth;
 				else col.xyz *= _Shadow3_Depth;
 				
+				UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG

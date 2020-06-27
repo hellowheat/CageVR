@@ -78,10 +78,11 @@ Shader "Unlit/outline_castShadow"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-				SHADOW_COORDS(3)
                 float4 pos: SV_POSITION;
 				float3 objectLightPos : TEXCOORD1;
 				float3 normal : NORMAL;
+				UNITY_FOG_COORDS(2)
+				SHADOW_COORDS(3)
             };
 
             sampler2D _MainTex;
@@ -101,6 +102,7 @@ Shader "Unlit/outline_castShadow"
 				TRANSFER_SHADOW(o);
 				o.normal = v.normal;
 				o.objectLightPos = normalize(mul(unity_WorldToObject, _WorldSpaceLightPos0));
+				UNITY_TRANSFER_FOG(o, o.pos); 
 				return o;
             }
 
@@ -117,6 +119,7 @@ Shader "Unlit/outline_castShadow"
 
 				float shadow = 0.7 + 0.3 * (SHADOW_ATTENUATION(i).x >=0.9?1:0);
 
+				UNITY_APPLY_FOG(i.fogCoord, col);
                 return col * shadow;
             }
             ENDCG

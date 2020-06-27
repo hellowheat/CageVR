@@ -39,8 +39,9 @@ Shader "Unlit/noOutline"
             {
                 float2 uv : TEXCOORD0;
                 float4 pos: SV_POSITION;
-				float3 objectLightPos : TEXCOORD1;
+				float3 objectLightPos : TEXCOORD2;
 				float3 normal : NORMAL;
+				UNITY_FOG_COORDS(1)
             };
 
             sampler2D _MainTex;
@@ -59,6 +60,7 @@ Shader "Unlit/noOutline"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.normal = v.normal;
 				o.objectLightPos = normalize(mul(unity_WorldToObject, _WorldSpaceLightPos0));
+				UNITY_TRANSFER_FOG(o, o.pos);
 				return o;
             }
 
@@ -72,7 +74,8 @@ Shader "Unlit/noOutline"
 				if (diffuse >= _Shadow1_Radio)col.xyz *= _Shadow1_Depth;
 				else if (diffuse >= _Shadow2_Radio)col.xyz *= _Shadow2_Depth;
 				else col.xyz *= _Shadow3_Depth;
-				
+
+				UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG
