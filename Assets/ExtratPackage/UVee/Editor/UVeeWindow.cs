@@ -733,10 +733,10 @@ public class UVeeWindow : EditorWindow {
 			Handles.color = COLOR_ARRAY[i%COLOR_ARRAY.Length];
 			for(int n = 0; n < tris.Length; n++)
 			{
-				Handles.DotCap(0,
+				Handles.DotHandleCap(0,
 					v[tris[n]],
 					Quaternion.identity,
-					HandleUtility.GetHandleSize(v[tris[n]]) * .05f);
+					HandleUtility.GetHandleSize(v[tris[n]]) * .05f,EventType.Repaint);
 			}
 			Handles.color = Color.white;
 		}
@@ -1276,13 +1276,14 @@ public class UVeeWindow : EditorWindow {
 	{
 		foreach(MeshSelection mf in mfs)
 		{
-			PrefabUtility.ReconnectToLastPrefab(mf.gameObject);
-			PrefabUtility.ResetToPrefabState(mf.rawObject);
+			PrefabUtility.RevertPrefabInstance(mf.gameObject,InteractionMode.AutomatedAction);
+			//PrefabUtility.ResetToPrefabState(mf.rawObject);
+			PrefabUtility.RevertObjectOverride(mf.rawObject,InteractionMode.AutomatedAction);
 		}
 		#if UNITY_5
 		EditorUtility.UnloadUnusedAssetsImmediate();
 		#else
-		EditorUtility.UnloadUnusedAssets();
+		EditorUtility.UnloadUnusedAssetsImmediate();
 		#endif
 	}
 
@@ -1326,8 +1327,8 @@ public class UVeeWindow : EditorWindow {
 		// m.name = "uvee-" + mf.sharedMesh.name;
 
 		Mesh m = MeshInstance(mf);
-		PrefabUtility.DisconnectPrefabInstance(mf.rawObject);
-		Undo.RegisterCreatedObjectUndo(m, "Modify UVs");
+        //PrefabUtility.DisconnectPrefabInstance(mf.rawObject);
+        Undo.RegisterCreatedObjectUndo(m, "Modify UVs");
 		mf.sharedMesh = m;
 	}
 

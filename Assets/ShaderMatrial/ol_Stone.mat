@@ -68,11 +68,11 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Shadow1_Depth: 0.758
+    - _Shadow1_Depth: 0.913
     - _Shadow1_Radio: 0.744
-    - _Shadow2_Depth: 0.287
+    - _Shadow2_Depth: 0.554
     - _Shadow2_Radio: -0.077
-    - _Shadow3_Depth: 0
+    - _Shadow3_Depth: 0.201
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

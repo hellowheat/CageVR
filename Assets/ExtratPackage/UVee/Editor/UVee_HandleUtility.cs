@@ -137,19 +137,22 @@ public class UVee_HandleUtility
 		Rect handleRectRight = new Rect(position.x, position.y - width / 2, size, width + HANDLE_PADDING);
 
 		Handles.color = Color.yellow;
-		Handles.CircleCap(-1, position, Quaternion.identity, width / 2);
+        //Handles.CircleCap(-1, position, Quaternion.identity, width / 2);
+        Handles.CircleHandleCap(-1, position, Quaternion.identity, width / 2, EventType.Repaint);
 		Handles.color = HANDLE_COLOR_UP;
 		Handles.DrawLine(position, position - Vector2.up * size);
-		Handles.ConeCap(0,
+		Handles.ConeHandleCap(0,
 			((Vector3)((position - Vector2.up * size))) - Vector3.forward * 16,
 			Quaternion.Euler(Vector3.right * 90f),
-			width / 2);
+			width / 2,
+            EventType.Repaint);
 		Handles.color = HANDLE_COLOR_RIGHT;
 		Handles.DrawLine(position, position + Vector2.right * size);
-		Handles.ConeCap(0,
+		Handles.ConeHandleCap(0,
 			((Vector3)((position + Vector2.right * size))) - Vector3.forward * 16,
 			QuaternionRight,
-			width / 2);
+			width / 2,
+            EventType.Repaint);
 
 		// If a Tool already is engaged and it's not this one, bail.
 		if (currentId >= 0 && currentId != id)
@@ -216,7 +219,7 @@ public class UVee_HandleUtility
 
 		// Draw gizmos
 		Handles.color = HANDLE_COLOR_ROTATE;
-		Handles.CircleCap(-1, position, Quaternion.identity, radius);
+		Handles.CircleHandleCap(-1, position, Quaternion.identity, radius,EventType.Repaint);
 
 		if (currentId == id)
 		{
@@ -275,23 +278,23 @@ public class UVee_HandleUtility
 
 		Handles.color = HANDLE_COLOR_UP;
 		Handles.DrawLine(position, position - Vector2.up * size * scale.y);
-		Handles.CubeCap(0,
+		Handles.CubeHandleCap(0,
 			((Vector3)((position - Vector2.up * scale.y * size))) - Vector3.forward * 16,
 			QuaternionUp,
-			width / 3);
+			width / 3,EventType.Repaint);
 
 		Handles.color = HANDLE_COLOR_RIGHT;
 		Handles.DrawLine(position, position + Vector2.right * size * scale.x);
-		Handles.CubeCap(0,
+		Handles.CubeHandleCap(0,
 			((Vector3)((position + Vector2.right * scale.x * size))) - Vector3.forward * 16,
 			Quaternion.Euler(Vector3.up * 90f),
-			width / 3);
+			width / 3,EventType.Repaint);
 
 		Handles.color = HANDLE_COLOR_SCALE;
-		Handles.CubeCap(0,
+		Handles.CubeHandleCap(0,
 			((Vector3)position) - Vector3.forward * 16,
 			QuaternionUp,
-			width / 2);
+			width / 2,EventType.Repaint);
 
 		// If a Tool already is engaged and it's not this one, bail.
 		if (currentId >= 0 && currentId != id)
