@@ -22,7 +22,7 @@ public class MapMoveNew : MonoBehaviour
     void Start()
     {
         nowIndex = startMapIndex;
-        calcRelation();
+        calcRelation(true);
         updateMMap();
         allowUpdate = true;
     }
@@ -41,8 +41,8 @@ public class MapMoveNew : MonoBehaviour
     }
 
 
-    //根据地图顺序更新地图连接，在地图顺序MMapOrder变化时才调用
-    void calcRelation()
+    //根据地图顺序更新地图连接，在地图顺序MMapOrder变化时才调用，会重置四方向
+    void calcRelation(bool useLoop)
     {
         int[][] fturn = { new int[] { 0, -1 }, new int[] { -1, 0 }, new int[] { 0, 1 }, new int[] { 1, 0 } };
         //断开全部连接重新计算
@@ -68,7 +68,8 @@ public class MapMoveNew : MonoBehaviour
 
         //加入循环路线连接
         int lastIndex = startLoopMapIndex;//上个连接的循环节点
-        if(lastIndex != -1)
+        int oldConnectionTop = MMapRelation[startLoopMapIndex][1];//最初顶部连接的节点
+        if (lastIndex != -1)
         {
             for(int i = 0; i < MMap.Count; i++)
             {
@@ -77,7 +78,8 @@ public class MapMoveNew : MonoBehaviour
                     MMapRelation[i][0] = MMapRelation[i][2] = -1;
                     MMapRelation[i][3] = lastIndex;
                     MMapRelation[lastIndex][1] = i;
-                    MMapRelation[i][1] = startLoopMapIndex;
+                    if (useLoop) MMapRelation[i][1] = startLoopMapIndex;
+                    else MMapRelation[i][1] = oldConnectionTop;
                     lastIndex = i;
                 }
             }
@@ -142,11 +144,11 @@ public class MapMoveNew : MonoBehaviour
 
     public void setLoop()
     {
-
+        calcRelation(true);
     }
 
     public void breakLoop()
     {
-
+        calcRelation(false);
     }
 }

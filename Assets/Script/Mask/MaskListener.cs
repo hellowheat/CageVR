@@ -6,12 +6,12 @@ using UnityEngine.EventSystems;
 
 public class MaskListener : MonoBehaviour
 {
-    public GameObject CallTriggerObject;
     private List<GameObject> canHideObj;
     List<GameObject> hideTrigger;//用于进入隐藏场景的Trigger
     List<GameObject> showTrigger;//用于进入显示场景的Trigger
     List<GameObject> resetTrigger;//用于重设场景的Trigger
     List<GameObject> masks;//用于重设场景的Trigger
+
     string canBeHideTagString = "canBeHide";//可隐藏目标的渲染队列
     string hideTriggerString = "MaskHideTrigger";
     string showTriggerString = "MaskShowTrigger";
@@ -21,6 +21,10 @@ public class MaskListener : MonoBehaviour
     List<TriggerEnterMask> showEnterTrigger = new List<TriggerEnterMask>();
     List<TriggerEnterMask> hideEnterTrigger = new List<TriggerEnterMask>();
     List<TriggerEnterMask> resetEnterTrigger = new List<TriggerEnterMask>();
+
+    [HideInInspector]
+    public bool isHideOut;
+    bool canCheckHide;
     void Start()
     {
         canHideObj = new List<GameObject>();
@@ -28,16 +32,15 @@ public class MaskListener : MonoBehaviour
         showTrigger = new List<GameObject>();
         resetTrigger = new List<GameObject>();
         masks = new List<GameObject>();
-        if (CallTriggerObject)
-        {
-            SerachAllHideObjAndTrigger(transform);
-        }
+        isHideOut = false;
+        canCheckHide = false;
+        SerachAllHideObjAndTrigger(transform);
+        
         for (int i = 0; i < showTrigger.Count; i++)
         {
             if (showTrigger[i].GetComponent<TriggerEnterMask>())
             {
                 showEnterTrigger.Add(showTrigger[i].GetComponent<TriggerEnterMask>());
-                showEnterTrigger[i].setEventCallObject(CallTriggerObject);
             }
         }
         for (int i = 0; i < hideTrigger.Count; i++)
@@ -45,7 +48,6 @@ public class MaskListener : MonoBehaviour
             if (hideTrigger[i].GetComponent<TriggerEnterMask>())
             {
                 hideEnterTrigger.Add(hideTrigger[i].GetComponent<TriggerEnterMask>());
-                hideEnterTrigger[i].setEventCallObject(CallTriggerObject);
             }
         }
         for (int i = 0; i < resetTrigger.Count; i++)
@@ -53,7 +55,6 @@ public class MaskListener : MonoBehaviour
             if (resetTrigger[i].GetComponent<TriggerEnterMask>())
             {
                 resetEnterTrigger.Add(resetTrigger[i].GetComponent<TriggerEnterMask>());
-                resetEnterTrigger[i].setEventCallObject(CallTriggerObject);
             }
         }
     }
@@ -92,18 +93,30 @@ public class MaskListener : MonoBehaviour
     }
     void showEvent()
     {
-        Debug.Log("show");
+        if (canCheckHide)
+        {
+            Debug.Log("showEvent");
+            canCheckHide = false;
+            isHideOut = false;
+        }
     }
     void hideEvent()
     {
-        Debug.Log("hide");
+        if (canCheckHide)
+        {
+            Debug.Log("hideEvent");
+            canCheckHide = false;
+            isHideOut = true;
+        }
     }
     void resetEvent()
     {
-        Debug.Log("reset");
+        Debug.Log("resetEvent");
+        canCheckHide = true;
+        isHideOut = false;
     }
 
-    private float chekcTimeDis=1.0f;
+    private float chekcTimeDis=1.0f;//每隔一秒检测更新一次
     private float lastChekcTime;
     void Update()
     {

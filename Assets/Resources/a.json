@@ -1,0 +1,28 @@
+﻿{
+  "name": "a",
+  "firstEnter": "0",
+  "noFirstEnter": "",
+  "dialogContent": [
+    {
+      "content": "hello.First.If you can .Look at me and click.",
+      "choose": [],
+      "chooseEnter": [],
+      "nextEnter": "2"
+    },
+    {
+      "content": "this is an apple.",
+      "nextEnter": "-1"
+    },
+    {
+      "content": "这是第三句话",
+      "choose": [ "选这个", "选择第二个选项" ],
+      "chooseEnter": [ "-1", "3" ],
+      "nextEnter": "1"
+
+    },
+    {
+      "content": "你选择了第二个选项",
+      "nextEnter":"-3"
+    }
+  ]
+}
