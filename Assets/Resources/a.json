@@ -2,15 +2,17 @@
   "name": "a",
   "firstEnter": "0",
   "noFirstEnter": "",
+  "firstMinContent": "",
+  "normalMinContent": "",
   "dialogContent": [
     {
-      "content": "hello.First.If you can .Look at me and click.",
+      "content": "天哪。居然有人来了！\n看这里，\n你能看到我吗。",
       "choose": [],
       "chooseEnter": [],
-      "nextEnter": "2"
+      "nextEnter": "1"
     },
     {
-      "content": "this is an apple.",
+      "content": "那真是太好了。\n我在这块无聊死了",
       "nextEnter": "-1"
     },
     {
@@ -22,7 +24,7 @@
     },
     {
       "content": "你选择了第二个选项",
-      "nextEnter":"-3"
+      "nextEnter": "-3"
     }
   ]
 }

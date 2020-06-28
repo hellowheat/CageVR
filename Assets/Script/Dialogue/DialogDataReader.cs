@@ -5,30 +5,25 @@ using LitJson;
 using System.IO;
 using System.Text;
 
-public class DialogDataReader : MonoBehaviour
+public class DialogDataReader
 {
-    public string NPCid;
-
     JsonData jsonRoot;
     bool isFirst = true;
     int nowIndex = -1;
-
-    [HideInInspector]
+    
     public int DialogueNumber;
-
-    [HideInInspector]
+    
     public string nowContent;
-    [HideInInspector]
     public List<string>chooseString = new List<string>();
-    [HideInInspector]
     public List<int>chooseEnter = new List<int>();
-    [HideInInspector]
     public int nextIndex = -1;
+    public string firstMinContent;
+    public string minContent;
 
     //当前对话结束
     public bool isDialogueEnd { get { return (nowIndex < 0 || nowIndex >= DialogueNumber); } }
 
-    void Awake()
+    public DialogDataReader(string NPCid)
     {
         StringBuilder stringBuilder = new StringBuilder(2048);
         stringBuilder.Append("Assets/Resources/");
@@ -38,21 +33,18 @@ public class DialogDataReader : MonoBehaviour
         string readerData = reader.ReadToEnd();
         reader.Close();
         jsonRoot = JsonMapper.ToObject(readerData);
-    }
 
-    void OnEnable()
-    {
-        /*int outWhile = 10;
-        GetEnterDialogueIndex();
-        while (!isDialogueEnd && outWhile-- > 0) 
+        try
         {
-            Debug.Log(nowContent);
-            NextDialogue(1);
-        }*/
+            firstMinContent = jsonRoot["firstMinContent"].ValueAsString();
+            minContent = jsonRoot["normalMinContent"].ValueAsString();
+        }
+        catch { }
     }
+    
 
     //开始一次对话
-    int StartDialogue()
+    public int StartDialogue()
     {
         nowIndex = 0;
 
@@ -64,8 +56,8 @@ public class DialogDataReader : MonoBehaviour
         return nowIndex;
     }
 
-    //下一个对话，chooseIndex不存在就直接跳nextEnter,chooseIndex表示选第几项
-    int NextDialogue(int chooseIndex)
+    //下一句对话，chooseIndex不存在就直接跳nextEnter,chooseIndex表示选第几项
+    public int NextDialogue(int chooseIndex)
     {
         if (nowIndex < 0) return nowIndex;//对话已经结束
 
