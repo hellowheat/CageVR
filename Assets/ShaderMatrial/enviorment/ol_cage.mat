@@ -70,7 +70,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shadow1_Depth: 1
-    - _Shadow1_Radio: 0.62
+    - _Shadow1_Radio: 0.61
     - _Shadow2_Depth: 0.75
     - _Shadow2_Radio: 1
     - _Shadow3_Depth: 0.75

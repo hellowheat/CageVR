@@ -79,9 +79,7 @@ public class ShowDialogue : MonoBehaviour
             if (!normalGB.activeSelf) StartDialog();
             else clickDialog(3);
         }
-
-
-
+        
 
         //文字依次显示
         if (normalGB.activeSelf && disLastShowTime >= nowShowCD)

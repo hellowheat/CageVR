@@ -9,6 +9,7 @@ TagManager:
   - MaskShowTrigger
   - MaskResetTrigger
   - WallMask
+  - MaskEnterTrigger
   layers:
   - Default
   - TransparentFX

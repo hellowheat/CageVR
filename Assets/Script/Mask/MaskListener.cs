@@ -6,61 +6,72 @@ using UnityEngine.EventSystems;
 
 public class MaskListener : MonoBehaviour
 {
-    private List<GameObject> canHideObj;
-    List<GameObject> hideTrigger;//用于进入隐藏场景的Trigger
-    List<GameObject> showTrigger;//用于进入显示场景的Trigger
-    List<GameObject> resetTrigger;//用于重设场景的Trigger
+    List<GameObject> canHideObj;
+    List<GameObject> hideGameObject;//用于进入隐藏场景的Trigger
+    List<GameObject> showGameObject;//用于进入显示场景的Trigger
+    List<GameObject> hideResetGameObject;//用于重设场景的Trigger,由hide触发
+    List<GameObject> showResetGameObject;//用于重设场景的Trigger,由show触发
     List<GameObject> masks;//用于重设场景的Trigger
 
-    string canBeHideTagString = "canBeHide";//可隐藏目标的渲染队列
-    string hideTriggerString = "MaskHideTrigger";
-    string showTriggerString = "MaskShowTrigger";
+    string canBeHideTagString = "CanBeMask";//可隐藏目标的渲染队列
+    string enterTriggerString = "MaskEnterTrigger";
     string resetTriggerString = "MaskResetTrigger";
     string wallMaskString = "WallMask";
 
     List<TriggerEnterMask> showEnterTrigger = new List<TriggerEnterMask>();
     List<TriggerEnterMask> hideEnterTrigger = new List<TriggerEnterMask>();
-    List<TriggerEnterMask> resetEnterTrigger = new List<TriggerEnterMask>();
+    List<TriggerEnterMask> hideResetTrigger = new List<TriggerEnterMask>();
+    List<TriggerEnterMask> showResetTrigger = new List<TriggerEnterMask>();
+    List<TriggerEnterMask> allResetTrigger = new List<TriggerEnterMask>();
 
     [HideInInspector]
     public bool isHideOut;
-    bool canCheckHide;
+    bool canCheckHide;//能进行检查
     void Start()
     {
         canHideObj = new List<GameObject>();
-        hideTrigger = new List<GameObject>();
-        showTrigger = new List<GameObject>();
-        resetTrigger = new List<GameObject>();
+        hideGameObject = new List<GameObject>();
+        showGameObject = new List<GameObject>();
+        hideResetGameObject = new List<GameObject>();
+        showResetGameObject = new List<GameObject>();
         masks = new List<GameObject>();
         isHideOut = false;
-        canCheckHide = false;
-        SerachAllHideObjAndTrigger(transform);
-        
-        for (int i = 0; i < showTrigger.Count; i++)
+        canCheckHide = true;
+        SearchAllTrigger(transform);//查找子物体中所有的Trigger
+        SearchAllHideObject(transform.parent);//查找兄弟物体中所有的可隐藏对象
+
+        for (int i = 0; i < showGameObject.Count; i++)
         {
-            if (showTrigger[i].GetComponent<TriggerEnterMask>())
+            if (showGameObject[i].GetComponent<TriggerEnterMask>())
             {
-                showEnterTrigger.Add(showTrigger[i].GetComponent<TriggerEnterMask>());
+                showEnterTrigger.Add(showGameObject[i].GetComponent<TriggerEnterMask>());
             }
         }
-        for (int i = 0; i < hideTrigger.Count; i++)
+        for (int i = 0; i < hideGameObject.Count; i++)
         {
-            if (hideTrigger[i].GetComponent<TriggerEnterMask>())
+            if (hideGameObject[i].GetComponent<TriggerEnterMask>())
             {
-                hideEnterTrigger.Add(hideTrigger[i].GetComponent<TriggerEnterMask>());
+                hideEnterTrigger.Add(hideGameObject[i].GetComponent<TriggerEnterMask>());
             }
         }
-        for (int i = 0; i < resetTrigger.Count; i++)
+        for (int i = 0; i < hideResetGameObject.Count; i++)
         {
-            if (resetTrigger[i].GetComponent<TriggerEnterMask>())
+            if (hideResetGameObject[i].GetComponent<TriggerEnterMask>())
             {
-                resetEnterTrigger.Add(resetTrigger[i].GetComponent<TriggerEnterMask>());
+                hideResetTrigger.Add(hideResetGameObject[i].GetComponent<TriggerEnterMask>());
+            }
+        }
+        for (int i = 0; i < showResetGameObject.Count; i++)
+        {
+            if (showResetGameObject[i].GetComponent<TriggerEnterMask>())
+            {
+                showResetTrigger.Add(showResetGameObject[i].GetComponent<TriggerEnterMask>());
             }
         }
     }
-
-    void SerachAllHideObjAndTrigger(Transform nowTransform)
+    void SearchAllHideObject(Transform nowTransform)
     {
+
         for (int i = 0; i < nowTransform.childCount; i++)
         {
             Transform childTransform = nowTransform.GetChild(i);
@@ -68,27 +79,44 @@ public class MaskListener : MonoBehaviour
             {
                 canHideObj.Add(childTransform.gameObject);
                 continue;
-            }else if(childTransform.tag.CompareTo(showTriggerString) == 0)
-            {
-                //遮罩显示触发
-                showTrigger.Add(childTransform.gameObject);
             }
-            else if (childTransform.tag.CompareTo(hideTriggerString) == 0)
+            SearchAllHideObject(nowTransform.GetChild(i));
+        }
+    }
+
+    void SearchAllTrigger(Transform nowTransform)
+    {
+        for (int i = 0; i < nowTransform.childCount; i++)
+        {
+            Transform childTransform = nowTransform.GetChild(i);
+            if (childTransform.tag.CompareTo(enterTriggerString) == 0)
             {
-                //遮罩隐藏触发
-                hideTrigger.Add(childTransform.gameObject);
+                //找到进入遮罩
+                if (childTransform.name.ToLower().IndexOf("show") != -1)
+                {   
+                    //show类型遮罩
+                    showGameObject.Add(childTransform.gameObject);
+                }else if (childTransform.name.ToLower().IndexOf("hide") != -1)
+                {
+                    //hide类型遮罩
+                    hideGameObject.Add(childTransform.gameObject);
+                }
             }
             else if (childTransform.tag.CompareTo(resetTriggerString) == 0)
             {
-                //遮罩重设触发
-                resetTrigger.Add(childTransform.gameObject);
+                //找到重设遮罩
+                if (childTransform.name.ToLower().IndexOf("show") != -1)
+                    showResetGameObject.Add(childTransform.gameObject);
+                else if (childTransform.name.ToLower().IndexOf("hide") != -1)
+                    hideResetGameObject.Add(childTransform.gameObject);
+                else allResetTrigger.Add(childTransform.gameObject.GetComponent<TriggerEnterMask>());
             }
             else if (childTransform.tag.CompareTo(wallMaskString) == 0)
             {
                 //遮罩
-                masks.Add(transform.gameObject);
+                masks.Add(childTransform.gameObject);
             }
-            SerachAllHideObjAndTrigger(childTransform);//找儿子
+            SearchAllTrigger(childTransform);//找儿子
         }
     }
     void showEvent()
@@ -98,6 +126,7 @@ public class MaskListener : MonoBehaviour
             Debug.Log("showEvent");
             canCheckHide = false;
             isHideOut = false;
+            showAllHideObject_HideMask();
         }
     }
     void hideEvent()
@@ -107,13 +136,72 @@ public class MaskListener : MonoBehaviour
             Debug.Log("hideEvent");
             canCheckHide = false;
             isHideOut = true;
+            hideAllHideObject_ShowMask();
         }
     }
-    void resetEvent()
+    void hideResetEvent()
     {
-        Debug.Log("resetEvent");
+        if (!canCheckHide && isHideOut)
+        {
+            Debug.Log("hideResetEvent");
+            canCheckHide = true;
+            isHideOut = false;
+            showAllHideObject_ShowMask();
+        }
+    }
+
+    void showResetEvent()
+    {
+        if (!canCheckHide && !isHideOut)
+        {
+            Debug.Log("showResetEvent");
+            canCheckHide = true;
+            isHideOut = false;
+            showAllHideObject_ShowMask();
+        }
+    }
+    void allResetEvent()
+    {
+        Debug.Log("allResetEvent");
         canCheckHide = true;
         isHideOut = false;
+        showAllHideObject_ShowMask();
+    }
+
+    void showAllHideObject_HideMask()
+    {
+        for(int i = 0; i < masks.Count; i++)
+        {
+            masks[i].SetActive(false);
+        }
+        for (int i = 0; i < canHideObj.Count; i++)
+        {
+            canHideObj[i].SetActive(true);
+        }
+    }
+
+    void hideAllHideObject_ShowMask()
+    {
+        for (int i = 0; i < masks.Count; i++)
+        {
+            masks[i].SetActive(true);
+        }
+        for (int i = 0; i < canHideObj.Count; i++)
+        {
+            canHideObj[i].SetActive(false);
+        }
+    }
+
+    void showAllHideObject_ShowMask()
+    {
+        for (int i = 0; i < masks.Count; i++)
+        {
+            masks[i].SetActive(true);
+        }
+        for (int i = 0; i < canHideObj.Count; i++)
+        {
+            canHideObj[i].SetActive(true);
+        }
     }
 
     private float chekcTimeDis=1.0f;//每隔一秒检测更新一次
@@ -122,7 +210,8 @@ public class MaskListener : MonoBehaviour
     {
         if (chekcTimeDis <= lastChekcTime)
         {
-            for (int i = 0; i < showTrigger.Count; i++)
+            
+            for (int i = 0; i < showGameObject.Count; i++)
             {
                 if (showEnterTrigger[i] && showEnterTrigger[i].isTriggerEnter)
                 {
@@ -131,7 +220,7 @@ public class MaskListener : MonoBehaviour
                     break;
                 }
             }
-            for (int i = 0; i < hideTrigger.Count; i++)
+            for (int i = 0; i < hideGameObject.Count; i++)
             {
                 if (hideEnterTrigger[i] && hideEnterTrigger[i].isTriggerEnter)
                 {
@@ -140,13 +229,33 @@ public class MaskListener : MonoBehaviour
                     break;
                 }
             }
-            for (int i = 0; i < resetTrigger.Count; i++)
+            for (int i = 0; i < hideResetTrigger.Count; i++)
             {
 
-                if (resetEnterTrigger[i] && resetEnterTrigger[i].isTriggerEnter)
+                if (hideResetTrigger[i] && hideResetTrigger[i].isTriggerEnter)
                 {
-                    resetEnterTrigger[i].isTriggerEnter = false;
-                    resetEvent();
+                    hideResetTrigger[i].isTriggerEnter = false;
+                    hideResetEvent();
+                    break;
+                }
+            }
+            for (int i = 0; i < showResetTrigger.Count; i++)
+            {
+
+                if (showResetTrigger[i] && showResetTrigger[i].isTriggerEnter)
+                {
+                    showResetTrigger[i].isTriggerEnter = false;
+                    showResetEvent();
+                    break;
+                }
+            }
+            for (int i = 0; i < allResetTrigger.Count; i++)
+            {
+
+                if (allResetTrigger[i] && allResetTrigger[i].isTriggerEnter)
+                {
+                    allResetTrigger[i].isTriggerEnter = false;
+                    allResetEvent();
                     break;
                 }
             }

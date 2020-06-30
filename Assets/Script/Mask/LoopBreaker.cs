@@ -12,7 +12,9 @@ public class LoopBreaker : MonoBehaviour
         if (other.tag.CompareTo("Player") == 0)
         {
             bool breakLoop = true;
-            for(int i=0; i< listeners.Count; i++)
+            for (int i = 0; i < listeners.Count; i++)
+                Debug.Log(listeners[i].isHideOut);
+            for(int i=0; i < listeners.Count; i++)
             {
                 if (!listeners[i].isHideOut)
                 {
