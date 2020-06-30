@@ -25,16 +25,20 @@ public class DialogDataReader
 
     public DialogDataReader(string NPCid)
     {
-        StringBuilder stringBuilder = new StringBuilder(2048);
         nowContent = "";
         firstMinContent = "";
-        minContent = "";
-        stringBuilder.Append("Assets/Resources/");
-        stringBuilder.Append(NPCid);
-        stringBuilder.Append(".json");
-        StreamReader reader = File.OpenText(stringBuilder.ToString());
-        string readerData = reader.ReadToEnd();
-        reader.Close();
+        minContent = ""; 
+
+       // StringBuilder stringBuilder = new StringBuilder(2048);
+        //stringBuilder.Append(Application.dataPath);
+        //stringBuilder.Append("/Resources/");
+       // stringBuilder.Append(NPCid);
+        //stringBuilder.Append(".json");
+        string readerData = Resources.Load<TextAsset>(NPCid).text;
+
+        // StreamReader reader = File.OpenText(stringBuilder.ToString());
+        // string readerData = reader.ReadToEnd();
+        //reader.Close();
         jsonRoot = JsonMapper.ToObject(readerData);
 
         try
@@ -44,6 +48,7 @@ public class DialogDataReader
         }
         catch { }
     }
+    
     
 
     //开始一次对话

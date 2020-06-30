@@ -9,7 +9,6 @@ public class TriggerEnterMask : MonoBehaviour
     [HideInInspector]
     public bool isTriggerEnter = false;
     
-
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.tag.CompareTo("Player") == 0)
