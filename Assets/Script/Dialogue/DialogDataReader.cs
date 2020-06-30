@@ -8,8 +8,8 @@ using System.Text;
 public class DialogDataReader
 {
     JsonData jsonRoot;
-    bool isFirst = true;
-    int nowIndex = -1;
+    public bool isFirst = true;
+    public int nowIndex = -1;
     
     public int DialogueNumber;
     
@@ -26,6 +26,9 @@ public class DialogDataReader
     public DialogDataReader(string NPCid)
     {
         StringBuilder stringBuilder = new StringBuilder(2048);
+        nowContent = "";
+        firstMinContent = "";
+        minContent = "";
         stringBuilder.Append("Assets/Resources/");
         stringBuilder.Append(NPCid);
         stringBuilder.Append(".json");
@@ -102,7 +105,7 @@ public class DialogDataReader
             {
                 for (int i = 0; i < chooseEnterJD.Count; i++)
                 {
-                    chooseEnter.Add(int.Parse(chooseEnterJD[i].ToString()));
+                    chooseEnter.Add(chooseEnterJD[i].ValueAsInt());
                 }
             }
 
@@ -110,7 +113,7 @@ public class DialogDataReader
             JsonData nextEnterJD = dialogueContent[nowIndex]["nextEnter"];
             if (nextEnterJD != null)
             {
-                nextIndex = int.Parse(nextEnterJD.ToString());
+                nextIndex = nextEnterJD.ValueAsInt();
             }
             else nextIndex = -1;
         }
