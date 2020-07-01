@@ -13,27 +13,25 @@ public class InteractorObject: MonoBehaviour
 {
 
     public Material nearMaterial;//靠近时的材质
-    public string interactorName;//自己交互用的名字
+    public Renderer rd;//渲染器，不写的话自动识别
+    public string interactorInfo;//交互文本信息
     public InteractorType interactorType;//交互类型
-
-    [HideInInspector]
-    public string interactorHit;//交互提示，用于反馈给交互器
-    private Renderer rd;
-    private Material noramlMaterial;//一般材质
+    protected Material noramlMaterial;//一般材质
+    public Transform TransformInstance { get { return transform; } }
 
     void Start()
     {
         try
         {
-            rd = GetComponent<Renderer>();
-            noramlMaterial = rd.material;
+            if (rd == null){rd = GetComponent<Renderer>();}
+            noramlMaterial = rd.sharedMaterial;
         }
         catch { }
         
     }
 
     //被靠近时候
-    public void beNearEnter()
+    public void beNearTriggerEnter()
     {
         if (nearMaterial)
         {
@@ -42,7 +40,7 @@ public class InteractorObject: MonoBehaviour
     }
 
     //远离时
-    public void beNearExit()
+    public void beNearTriggerExit()
     {
 
     }
@@ -66,13 +64,13 @@ public class InteractorObject: MonoBehaviour
     }
 
     //被交互
-    public void beStartInteractor()
+    public void beInteractorEnter()
     {
 
     }
 
     //被结束交互
-    public void beEndInteractor()
+    public void beInteractorExit()
     {
 
     }
