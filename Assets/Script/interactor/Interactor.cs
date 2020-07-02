@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+//交互器
 public class Interactor : MonoBehaviour
 {
     public InteractorTriggerEvent trigger;
@@ -52,10 +53,12 @@ public class Interactor : MonoBehaviour
     //监听交互器指向
     IEnumerator checkPoint()
     {
-        WaitForSeconds waitTime = new WaitForSeconds(0.5f);//隔一段时间监听一次
+        WaitForSeconds waitTime = new WaitForSeconds(0.1f);//隔一段时间监听一次
         RaycastHit hit;
         while (true)
         {
+            Physics.Raycast(transform.position, transform.forward, out hit, pointDistance);
+           if(hit.transform != null) Debug.Log("point " + hit.transform.name);
             if(Physics.Raycast(transform.position, transform.forward, out hit, pointDistance) && hit.transform.GetComponent<InteractorObject>())//检测碰撞，并且碰撞的对象有InteractorObject
             {
                 InteractorObject interactorObject = hit.transform.GetComponent<InteractorObject>();
