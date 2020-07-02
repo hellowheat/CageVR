@@ -27,14 +27,15 @@ public class DialogDataReader
     {
         nowContent = "";
         firstMinContent = "";
-        minContent = ""; 
+        minContent = "";
 
-       // StringBuilder stringBuilder = new StringBuilder(2048);
+        // StringBuilder stringBuilder = new StringBuilder(2048);
         //stringBuilder.Append(Application.dataPath);
         //stringBuilder.Append("/Resources/");
-       // stringBuilder.Append(NPCid);
+        // stringBuilder.Append(NPCid);
         //stringBuilder.Append(".json");
-        string readerData = Resources.Load<TextAsset>(NPCid).text;
+        Debug.Log(2);
+        string readerData = Resources.Load<TextAsset>(LanguageManager.getInstance().getLanguageString("NPC_"+NPCid+"_Dialogue_File")).text;
 
         // StreamReader reader = File.OpenText(stringBuilder.ToString());
         // string readerData = reader.ReadToEnd();
