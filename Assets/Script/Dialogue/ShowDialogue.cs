@@ -24,6 +24,7 @@ public class ShowDialogue : MonoBehaviour
 
     int stringShowIndex = 0;
     const int chooseNumber = 6;
+    public bool isDialogueEnd { get => data.isDialogueEnd; }
     
     // Start is called before the first frame update
     void Start()
@@ -111,7 +112,6 @@ public class ShowDialogue : MonoBehaviour
 
     public void StartDialog()
     {
-
         stringShowIndex = 0;
         data.StartDialogue();
         updateUIContent();//更新界面

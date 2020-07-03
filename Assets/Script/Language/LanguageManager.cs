@@ -50,7 +50,6 @@ public class LanguageManager
             }
         }
         catch { }
-        Debug.Log(3);
     }
 
     //单例
@@ -58,7 +57,7 @@ public class LanguageManager
     {
         allType = Resources.Load<TextAsset>("LanguageType").text.Replace("\r\n", "&").Split('&');
         allLanguageString = new Dictionary<string, string>();
-        setLanguage(0);
+        setLanguage(1);
     }
 
     public static LanguageManager ins = null;

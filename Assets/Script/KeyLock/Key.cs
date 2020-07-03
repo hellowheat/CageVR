@@ -5,15 +5,17 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {
     public string mdString;
-
-    private void OnCollisionEnter(Collision collision)
+    
+    private void OnTriggerEnter(Collider collision)
     {
         Lock @lock = collision.transform.GetComponent<Lock>();
         if(@lock != null)
         {
-            if(@lock.mdString == mdString)
+            Debug.Log("key trigger enter");
+            if (@lock.mdString == mdString)
             {
                 //匹配上了
+                @lock.open();
             }
             else
             {

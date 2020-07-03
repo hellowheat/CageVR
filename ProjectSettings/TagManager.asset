@@ -10,6 +10,7 @@ TagManager:
   - MaskResetTrigger
   - WallMask
   - MaskEnterTrigger
+  - MinMap
   layers:
   - Default
   - TransparentFX

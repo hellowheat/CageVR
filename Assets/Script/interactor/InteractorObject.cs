@@ -2,63 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InteractorType
-{
-    PICK,//抓取
-    DIALOGUE,//对话
-    OPEN,//打开（门）
-    CHOOSE//选择（对话框）
-}
 public class InteractorObject: MonoBehaviour
 {
 
-    public Material nearMaterial;//靠近时的材质
-    public Renderer rd;//渲染器，不写的话自动识别
-    public string interactorPath;//交互文本信息
-    public InteractorType interactorType;//交互类型
-    protected Material noramlMaterial;//一般材质
+    public Material pointMaterial;//靠近时的材质
+    public string interactorPath;//交互文本读取路径
     public Transform TransformInstance { get { return transform; } }
+
+
 
     [HideInInspector]
     public string interactorInfo;//交互文本信息
+    private Renderer rd;//渲染器，不写的话自动识别
+    protected Material noramlMaterial;//默认材质
 
-    void Start()
+    public virtual void Start()
     {
         try
         {
-            if (rd == null){rd = GetComponent<Renderer>();}
+            foundRenderer(transform);
             noramlMaterial = rd.sharedMaterial;
         }
         catch { }
         interactorInfo = LanguageManager.getInstance().getLanguageString("interactor_"+interactorPath);
+
+        
     }
 
     //被靠近时候
-    public void beNearTriggerEnter()
+    public void beNearTriggerEnter(Interactor interactor)
     {
-        if (nearMaterial)
-        {
-            rd.material = nearMaterial;
-        }
+
     }
 
     //远离时
-    public void beNearTriggerExit()
+    public void beNearTriggerExit(Interactor interactor)
     {
 
     }
 
     //被指向时
-    public void bePointEnter()
+    public void bePointEnter(Interactor interactor, RaycastHit hit)
     {
-        if (nearMaterial)
+        if (pointMaterial)
         {
-            rd.material = nearMaterial;
+            rd.material = pointMaterial;
         }
     }
 
     //被取消指向时
-    public void bePointExit()
+    public void bePointExit(Interactor interactor)
     {
         if (noramlMaterial)
         {
@@ -67,14 +60,27 @@ public class InteractorObject: MonoBehaviour
     }
 
     //被交互
-    public void beInteractorEnter()
+    public virtual void beInteractorEnter(Interactor interactor, RaycastHit hit)
     {
 
     }
 
     //被结束交互
-    public void beInteractorExit()
+    public virtual void beInteractorExit(Interactor interactor)
     {
 
+    }
+
+    void foundRenderer(Transform t)
+    {
+        rd = t.GetComponent<Renderer>();
+        if(rd == null)
+        {
+            for(int i = 0; i < t.childCount; i++)
+            {
+                rd = t.GetChild(i).GetComponent<Renderer>();
+                if (rd != null) break;
+            }
+        }
     }
 }

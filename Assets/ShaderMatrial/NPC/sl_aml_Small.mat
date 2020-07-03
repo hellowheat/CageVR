@@ -33,6 +33,6 @@ Material:
     - _Shadow3_Depth: 0.4
     - _Shadow3_Radio: 0.5
     - _Size: 1
-    - _Width: 0.0002
+    - _Width: 0.0008
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}

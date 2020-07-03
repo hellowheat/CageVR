@@ -1,2 +1,8 @@
 ﻿NPC_a_Dialogue_File:NPCDialogueFile/a_zh
 interactor_NPC_a:与熊大对话
+interactor_choose1:选择1
+interactor_choose2:选择2
+interactor_choose3:选择3
+interactor_choose4:选择4
+interactor_choose5:选择5
+interactor_choose6:选择6

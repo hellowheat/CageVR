@@ -7,11 +7,20 @@ using System.Linq;
 public class Interactor : MonoBehaviour
 {
     public InteractorTriggerEvent trigger;
-    public float pointDistance;
+    public float pointDistance;//检测长度
     public TextMesh textMesh;
+    [Header("line")]
+    public bool useLine;//使用画线
+    public Material lineMaterial;
+    public float lineWidth;
+    [Header("pick")]
+    public GameObject pickPosition;//手心拾取道具位置
+
+
     private List<InteractorObject> interactorObjs;//附近交互对象集
     InteractorObject pointerInteractorObj;  //指向的交互对象
     InteractorObject nowHighShowInteractorObj;//当前高亮对象
+    RaycastHit savehit;//检测的射线
     void Awake()
     {
         interactorObjs = new List<InteractorObject>();
@@ -19,12 +28,60 @@ public class Interactor : MonoBehaviour
 
     void Start()
     {
-        trigger?.setEnterCallBack(TriggerCallBack);
-        trigger?.setExitCallBack(TriggerCallBack);
+        trigger?.setEnterCallBack(TriggerCallBack);//设置进入监听
+        trigger?.setExitCallBack(TriggerCallBack);//设置离开监听
+
+        if (useLine)
+        {
+            GameObject line = new GameObject("line");
+            LineRenderer drawLine = line.AddComponent<LineRenderer>();
+            drawLine.useWorldSpace = false;
+            drawLine.material = lineMaterial;
+            drawLine.positionCount = 2;
+            drawLine.startWidth = drawLine.endWidth = lineWidth;
+            drawLine.SetPosition(0, transform.position);
+            drawLine.SetPosition(1, transform.position + transform.forward.normalized * pointDistance);
+            line.transform.SetParent(transform);
+        }
+
         StartCoroutine(checkPoint());
     }
-    
-    
+
+    //Test
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.T))
+        {
+            transform.position += transform.up * 10 *Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.G))
+        {
+            transform.position += -transform.up * 10 * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            transform.position += -transform.right* 10 * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.H))
+        {
+            transform.position += transform.right * 10 * Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            InteractorActionStart();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            InteractorActionEnd();
+        }
+    }
+
+    //交互器发生附近碰撞时回调函数
     void TriggerCallBack(Collider collider,InteractorTriggerEventType type)
     {
         InteractorObject interactorObject = collider.GetComponent<InteractorObject>();
@@ -50,7 +107,7 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    //监听交互器指向
+    //持续监听交互器的指向
     IEnumerator checkPoint()
     {
         WaitForSeconds waitTime = new WaitForSeconds(0.1f);//隔一段时间监听一次
@@ -58,9 +115,10 @@ public class Interactor : MonoBehaviour
         while (true)
         {
             Physics.Raycast(transform.position, transform.forward, out hit, pointDistance);
-           if(hit.transform != null) Debug.Log("point " + hit.transform.name);
+           //if(hit.transform != null) Debug.Log("point " + hit.transform.name);
             if(Physics.Raycast(transform.position, transform.forward, out hit, pointDistance) && hit.transform.GetComponent<InteractorObject>())//检测碰撞，并且碰撞的对象有InteractorObject
             {
+                savehit = hit;
                 InteractorObject interactorObject = hit.transform.GetComponent<InteractorObject>();
                 if (interactorObject)
                 {
@@ -80,6 +138,7 @@ public class Interactor : MonoBehaviour
         }
     }
 
+    //更新交互对象事件
     void updateInteractorObject()
     {
         InteractorObject calcInteractor=null;//应交互的对象
@@ -99,9 +158,9 @@ public class Interactor : MonoBehaviour
         //处理事件，当应该选择的和目前选择的不同时
         if(calcInteractor != nowHighShowInteractorObj)
         {
-            nowHighShowInteractorObj?.bePointExit();
+            nowHighShowInteractorObj?.bePointExit(this);
             nowHighShowInteractorObj = calcInteractor;
-            nowHighShowInteractorObj?.bePointEnter();
+            nowHighShowInteractorObj?.bePointEnter(this, savehit);
 
             //更新触发器文本
             if (textMesh)
@@ -111,5 +170,15 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    
+    //发生交互
+    public void InteractorActionStart()
+    {
+        nowHighShowInteractorObj?.beInteractorEnter(this,savehit);
+    }
+
+    //结束交互
+    public void InteractorActionEnd()
+    {
+        nowHighShowInteractorObj?.beInteractorExit(this);
+    }
 }
