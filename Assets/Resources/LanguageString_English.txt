@@ -1,1 +1,2 @@
 ﻿NPC_a_Dialogue_File:NPCDialogueFile/a_en
+interactor_NPC_a:talk bear

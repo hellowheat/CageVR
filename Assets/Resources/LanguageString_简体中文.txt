@@ -1,1 +1,2 @@
 ﻿NPC_a_Dialogue_File:NPCDialogueFile/a_zh
+interactor_NPC_a:与熊大对话

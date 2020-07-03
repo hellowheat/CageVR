@@ -42,7 +42,7 @@ public class LanguageManager
         try
         {
             allLanguageString.Clear();
-            string[] languageStrings = Resources.Load<TextAsset>("LanguageString_" + allType[languageType]).text.Replace("\r\n"," ").Split(' ');
+            string[] languageStrings = Resources.Load<TextAsset>("LanguageString_" + allType[languageType]).text.Replace("\r\n","&").Split('&');
             foreach (string languageString in languageStrings)
             {
                 string[] splltLS = languageString.Split(':');
@@ -56,7 +56,7 @@ public class LanguageManager
     //单例
     private LanguageManager()
     {
-        allType = Resources.Load<TextAsset>("LanguageType").text.Replace("\r\n", " ").Split(' ');
+        allType = Resources.Load<TextAsset>("LanguageType").text.Replace("\r\n", "&").Split('&');
         allLanguageString = new Dictionary<string, string>();
         setLanguage(0);
     }

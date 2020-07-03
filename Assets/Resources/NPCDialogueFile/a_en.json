@@ -35,7 +35,7 @@
     },
     {
       "id": 4,
-      "content": "I know you have a lot of question marks like me.\nBut you calm down，\nactually, I don't know the answer.",
+      "content": "I know you have a lot of\nquestion marks like me.\nBut you calm down，\nactually, I don't know\nthe answer.",
       "choose": [],
       "chooseEnter": [],
       "nextEnter": 1

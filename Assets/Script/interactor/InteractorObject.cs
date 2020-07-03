@@ -14,10 +14,13 @@ public class InteractorObject: MonoBehaviour
 
     public Material nearMaterial;//靠近时的材质
     public Renderer rd;//渲染器，不写的话自动识别
-    public string interactorInfo;//交互文本信息
+    public string interactorPath;//交互文本信息
     public InteractorType interactorType;//交互类型
     protected Material noramlMaterial;//一般材质
     public Transform TransformInstance { get { return transform; } }
+
+    [HideInInspector]
+    public string interactorInfo;//交互文本信息
 
     void Start()
     {
@@ -27,7 +30,7 @@ public class InteractorObject: MonoBehaviour
             noramlMaterial = rd.sharedMaterial;
         }
         catch { }
-        
+        interactorInfo = LanguageManager.getInstance().getLanguageString("interactor_"+interactorPath);
     }
 
     //被靠近时候
