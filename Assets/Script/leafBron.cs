@@ -20,9 +20,7 @@ public class leafBron : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("has collision " +collision.transform.name  );
         Rigidbody rb = collision.transform.GetComponent<Rigidbody>();
-        Debug.Log("speed=" + rb.velocity.magnitude);
         if (rb != null && rb.velocity.magnitude >= velocityThreshold)
         {
            // Debug.Log("speed=" + rb.velocity.magnitude);

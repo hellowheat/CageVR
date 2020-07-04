@@ -16,13 +16,16 @@ public class AutoParentUpdate : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Transform parentTransfom= hasTagParent(collision.transform, "MinMap");
-        if (parentTransfom != null)
+        if(GetComponent<Rigidbody>() != null)
         {
-            Transform autoParent = parentTransfom.Find("autoParent");
-            if(autoParent != null)
+            Transform parentTransfom = hasTagParent(collision.transform, "MinMap");
+            if (parentTransfom != null)
             {
-                transform.parent = autoParent;
+                Transform autoParent = parentTransfom.Find("autoParent");
+                if (autoParent != null)
+                {
+                    transform.parent = autoParent;
+                }
             }
         }
     }

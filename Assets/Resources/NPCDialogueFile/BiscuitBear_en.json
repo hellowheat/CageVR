@@ -28,7 +28,7 @@
     },
     {
       "id": 3,
-      "content": "That's exactly what I want to ask you.",
+      "content": "That's exactly\nwhat I want to ask you.",
       "choose": [],
       "chooseEnter": [],
       "nextEnter": 1

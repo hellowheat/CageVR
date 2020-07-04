@@ -18,7 +18,10 @@ public class PickIObject : InteractorObject
     {
         if(gameObject.GetComponent<FixedJoint>() == null)
         {
-            if (fc) fc.enabled = false;
+            if (fc) fc.enabled = false;//如果有面向相机，需要关闭面向相机
+
+            Collider cd = gameObject.GetComponent<Collider>();//将trigger变成collider
+            cd.isTrigger = false;
 
             transform.position = interactor.pickPosition.transform.position ;
             fixedJoint = gameObject.AddComponent<FixedJoint>();
@@ -36,8 +39,10 @@ public class PickIObject : InteractorObject
             fixedJoint.breakForce = 0;
             if (fc) fc.enabled = true;
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+
             rb.useGravity = true;
             rb.isKinematic = false;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
         }
         catch { }
@@ -46,9 +51,9 @@ public class PickIObject : InteractorObject
 
     private void OnJointBreak(float breakForce)
     {
-        Debug.Log(breakForce);
         if (breakForce > 1000)
         {
+            //添加反向力
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
             //rb.AddForce(transform.up * breakForce / 10);
 

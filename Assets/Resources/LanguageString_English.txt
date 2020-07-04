@@ -1,2 +1,3 @@
 ﻿NPC_BiscuitBear_Dialogue_File:NPCDialogueFile/BiscuitBear_en
 interactor_NPC_a:talk to BiscuitBear
+interactor_Pick_BlueFlower:pick blue flower

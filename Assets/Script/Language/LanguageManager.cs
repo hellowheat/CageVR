@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class LanguageManager
 {
-
     //所有语言
     public string[] allType;
 
@@ -31,8 +30,12 @@ public class LanguageManager
     //设置语言
     public void setLanguage(int index)
     {
-        languageType = index;
-        UpdateLanguageString();
+        if(index>=0 && index < allType.Length)
+        {
+            PlayerPrefs.SetInt("language", index);
+            languageType = index;
+            UpdateLanguageString();
+        }
     }
 
 
@@ -57,7 +60,9 @@ public class LanguageManager
     {
         allType = Resources.Load<TextAsset>("LanguageType").text.Replace("\r\n", "&").Split('&');
         allLanguageString = new Dictionary<string, string>();
-        setLanguage(1);
+        languageType = PlayerPrefs.GetInt("language", 0);
+        UpdateLanguageString();
+        //setLanguage(1);
     }
 
     public static LanguageManager ins = null;
