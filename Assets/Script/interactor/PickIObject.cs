@@ -6,6 +6,7 @@ public class PickIObject : InteractorObject
 {
     FixedJoint fixedJoint;
     FaceCamera fc;
+    
 
     public override void Start()
     {
@@ -18,9 +19,11 @@ public class PickIObject : InteractorObject
         if(gameObject.GetComponent<FixedJoint>() == null)
         {
             if (fc) fc.enabled = false;
+
             transform.position = interactor.pickPosition.transform.position ;
             fixedJoint = gameObject.AddComponent<FixedJoint>();
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+            fixedJoint.breakForce = 200;
             fixedJoint.connectedBody = interactor.GetComponent<Rigidbody>();
 
         }
@@ -39,5 +42,16 @@ public class PickIObject : InteractorObject
         }
         catch { }
        // Destroy(gameObject.GetComponent<FixedJoint>()) ;
+    }
+
+    private void OnJointBreak(float breakForce)
+    {
+        Debug.Log(breakForce);
+        if (breakForce > 1000)
+        {
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            //rb.AddForce(transform.up * breakForce / 10);
+
+        }
     }
 }

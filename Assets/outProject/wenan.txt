@@ -1,0 +1,16 @@
+动物有：
+肉食（5）：熊、鳄鱼、河马、狗、犀牛
+素食（8）：猫、鸡、松鼠、鹿、鸭、猴子、驼鹿、兔子
+
+饼干熊 BiscuitBear、香菜熊 CorianderBear、芒果熊 MangoBear
+沙拉鳄 SaladCrocodile、扁豆鳄LentilCrocodile、山竹鳄 MangosteenCrocodile
+陈皮狗、辣椒狗、方糖狗
+青杏河马、布丁河马
+麻薯犀牛
+
+泡芙猫、蘑菇猫、枸杞猫
+糯米松鼠、蒜泥松鼠
+棉花鹿、榛子鹿、面包鹿、椰菜鹿
+浆果鸭、曲奇鸭
+椰汁猴、果冻猴、蛋挞猴
+杏仁兔、冰棍兔、香蕉兔

@@ -1,0 +1,51 @@
+﻿{
+  "name": "a",
+  "firstEnter": 0,
+  "noFirstEnter": 1,
+  "firstMinContent": "Oh?",
+  "normalMinContent": "what happend?",
+  "dialogContent": [
+    {
+      "id": 0,
+      "content": "Oh.\nNew people In here!\nLook At me，\nCan you see me?.",
+      "choose": [],
+      "chooseEnter": [],
+      "nextEnter": 1
+    },
+    {
+      "id": 1,
+      "content": "That`s good.\nI`m boring in here",
+      "choose": [ "who are you?", "where is there?", "how to leave there?", "Bye." ],
+      "chooseEnter": [ 2, 3, 4, 5 ],
+      "nextEnter": -1
+    },
+    {
+      "id": 2,
+      "content": "I don't know how to answer you.\nI also want to know who I am",
+      "choose": [],
+      "chooseEnter": [],
+      "nextEnter": 1
+    },
+    {
+      "id": 3,
+      "content": "That's exactly what I want to ask you.",
+      "choose": [],
+      "chooseEnter": [],
+      "nextEnter": 1
+    },
+    {
+      "id": 4,
+      "content": "I know you have a lot of\nquestion marks like me.\nBut you calm down，\nactually, I don't know\nthe answer.",
+      "choose": [],
+      "chooseEnter": [],
+      "nextEnter": 1
+    },
+    {
+      "id": 5,
+      "content": "Bye.",
+      "choose": [],
+      "chooseEnter": [],
+      "nextEnter": -1
+    }
+  ]
+}
