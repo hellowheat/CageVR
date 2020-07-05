@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointMaterial: {fileID: 2100000, guid: 6c319b373e92c794c98563291b155885, type: 2}
-  interactorPath: Pick_BlueFlower
+  interactorPath: Pick_Grass
   interactorInfo: 
 --- !u!114 &2519461817775471606
 MonoBehaviour:
