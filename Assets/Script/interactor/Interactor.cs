@@ -20,6 +20,7 @@ public class Interactor : MonoBehaviour
     private List<InteractorObject> interactorObjs;//附近交互对象集
     InteractorObject pointerInteractorObj;  //指向的交互对象
     InteractorObject nowHighShowInteractorObj;//当前高亮对象
+    InteractorObject nowInteractorObj;//当前交互对象，为空表示没有交互
     RaycastHit savehit;//检测的射线
     void Awake()
     {
@@ -120,65 +121,89 @@ public class Interactor : MonoBehaviour
             {
                 savehit = hit;
                 InteractorObject interactorObject = hit.transform.GetComponent<InteractorObject>();
-                if (interactorObject)
-                {
-                    pointerInteractorObj = interactorObject;
-                    updateInteractorObject();
-                }
+                pointerInteractorObj = interactorObject;
             }
             else
             {
                 //指向的对象为空
-                //Debug.Log("pointer is null");
                 pointerInteractorObj = null;
-                updateInteractorObject();
             }
+            updateSelectObject();
 
             yield return waitTime;
         }
     }
 
     //更新交互对象事件
-    void updateInteractorObject()
+    void updateSelectObject()
     {
-        InteractorObject calcInteractor=null;//应交互的对象
-        if (pointerInteractorObj) calcInteractor = pointerInteractorObj;//有指向的目标
-        else
+        if (nowInteractorObj == null) //未处于交互状态
         {
-            //无指向的目标
-            for(int i = 0; i < interactorObjs.Count; i++)
+            InteractorObject calcInteractor = null;//应交互的对象
+            if (pointerInteractorObj) calcInteractor = pointerInteractorObj;//有指向的目标
+            else
             {
-                if (calcInteractor == null || Vector3.Distance(interactorObjs[i].transform.position ,transform.position) < Vector3.Distance(calcInteractor.transform.position, transform.position))
+                //无指向的目标
+                for (int i = 0; i < interactorObjs.Count; i++)
                 {
-                    calcInteractor = interactorObjs[i];
+                    if (calcInteractor == null || Vector3.Distance(interactorObjs[i].transform.position, transform.position) < Vector3.Distance(calcInteractor.transform.position, transform.position))
+                    {
+                        calcInteractor = interactorObjs[i];
+                    }
                 }
             }
+
+            //处理事件，当应该选择的和目前选择的不同时
+            if (calcInteractor != nowHighShowInteractorObj)
+            {
+                nowHighShowInteractorObj?.bePointExit(this);
+                nowHighShowInteractorObj = calcInteractor;
+                nowHighShowInteractorObj?.bePointEnter(this, savehit);
+            }
+        }
+        else
+        {
+            //处于交互状态,高亮对象置空
+            nowHighShowInteractorObj?.bePointExit(this);
+            nowHighShowInteractorObj = null;
         }
 
-        //处理事件，当应该选择的和目前选择的不同时
-        if(calcInteractor != nowHighShowInteractorObj)
+        //更新触发器文本
+        if (textMesh)
         {
-            nowHighShowInteractorObj?.bePointExit(this);
-            nowHighShowInteractorObj = calcInteractor;
-            nowHighShowInteractorObj?.bePointEnter(this, savehit);
-
-            //更新触发器文本
-            if (textMesh)
-            {
-                textMesh.text = nowHighShowInteractorObj ? nowHighShowInteractorObj.interactorInfo : string.Empty;
-            }
+            textMesh.text = nowHighShowInteractorObj ? nowHighShowInteractorObj.interactorInfo : string.Empty;
         }
     }
 
     //发生交互
     public void InteractorActionStart()
     {
-        nowHighShowInteractorObj?.beInteractorEnter(this,savehit);
+        if(nowInteractorObj == null)
+        {
+            nowInteractorObj = nowHighShowInteractorObj;
+            nowHighShowInteractorObj?.bePointExit(this);//不被指向
+            nowHighShowInteractorObj = null;
+            nowInteractorObj?.beInteractorEnter(this,savehit);//被交互
+        }
     }
 
     //结束交互
     public void InteractorActionEnd()
     {
-        nowHighShowInteractorObj?.beInteractorExit(this);
+        if(nowInteractorObj != null)
+        {
+            nowInteractorObj?.beInteractorExit(this);
+            nowInteractorObj = null;
+            updateSelectObject();//重新更新选项
+        }
+    }
+
+    //被交互对象尝试主动结束交互
+    public void tryToStopInteractor(InteractorObject interactorObject)
+    {
+        if(interactorObject == nowInteractorObj)
+        {
+            InteractorActionEnd();
+        }
     }
 }

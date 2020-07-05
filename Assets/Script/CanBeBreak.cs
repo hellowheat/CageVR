@@ -13,13 +13,15 @@ public class CanBeBreak : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+
         Rigidbody myrb = gameObject.GetComponent<Rigidbody>();
         Rigidbody crb = collision.transform.GetComponent<Rigidbody>();
-        if (myrb != null) Debug.Log(myrb.velocity+",my");
-        if (crb != null) Debug.Log(crb.velocity+",collision");
+        myrb.velocity = -myrb.velocity;
+        if (myrb != null) Debug.Log(myrb.velocity+",my,"+ myrb.velocity.magnitude);
+        if (crb != null) Debug.Log(crb.velocity+",collision" + crb.velocity.magnitude);
 
-        if ((myrb != null && myrb.velocity.magnitude >= speedThreashold) 
-            || (crb != null && crb.velocity.magnitude >= speedThreashold))
+        if ((myrb != null && myrb.velocity.magnitude >= speedThreashold))
+           // || (crb != null && crb.velocity.magnitude >= speedThreashold))
         {
             beBreak();
         }
@@ -45,6 +47,8 @@ public class CanBeBreak : MonoBehaviour
                 lowGB.transform.position = gb.transform.position;
                 lowGB.AddComponent<BoxCollider>();
                 lowGB.AddComponent<Rigidbody>();
+                lowGB.AddComponent<AutoParentUpdate>();
+                lowGB.AddComponent<PickIObject>().interactorPath= "Pick_VasePart";
                 if (removeTime >= 0) lowGB.AddComponent<AutoDestory>().destoryTime = removeTime ;
                 sliceObj(lowGB, time - 1, Quaternion.AngleAxis(60, rotateType[Random.Range(0, 3)]) * dir);
             }
@@ -54,6 +58,8 @@ public class CanBeBreak : MonoBehaviour
                 upGB.transform.position = gb.transform.position;
                 upGB.AddComponent<BoxCollider>();
                 upGB.AddComponent<Rigidbody>();
+                upGB.AddComponent<AutoParentUpdate>();
+                upGB.AddComponent<PickIObject>().interactorPath = "Pick_VasePart";
                 if (removeTime >= 0) upGB.AddComponent<AutoDestory>().destoryTime = removeTime;
                 sliceObj(upGB, time - 1, Quaternion.AngleAxis(60, rotateType[Random.Range(0, 3)]) * dir);
             }

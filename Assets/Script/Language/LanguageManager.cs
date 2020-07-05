@@ -62,7 +62,7 @@ public class LanguageManager
         allLanguageString = new Dictionary<string, string>();
         languageType = PlayerPrefs.GetInt("language", 0);
         UpdateLanguageString();
-        //setLanguage(1);
+        setLanguage(1);
     }
 
     public static LanguageManager ins = null;

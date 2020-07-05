@@ -5,7 +5,8 @@ interactor_Pick_RedFlower:拾取“花”
 interactor_Pick_YellowFlower:拾取“花”
 interactor_Pick_Grass:拾取“草”
 interactor_Pick_Mushroom:拾取“蘑菇”
-interactor_Pick_Vase1:拾取“罐子”
+interactor_Pick_Vase:拾取“罐子”
+interactor_Pick_VasePart:拾取“罐子碎片”
 interactor_choose1:选择1
 interactor_choose2:选择2
 interactor_choose3:选择3

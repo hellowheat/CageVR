@@ -6,7 +6,8 @@ public class PickIObject : InteractorObject
 {
     FixedJoint fixedJoint;
     FaceCamera fc;
-    
+
+    private Interactor interactor;//主动跟自己交互的交互器
 
     public override void Start()
     {
@@ -18,17 +19,17 @@ public class PickIObject : InteractorObject
     {
         if(gameObject.GetComponent<FixedJoint>() == null)
         {
+            this.interactor = interactor;
             if (fc) fc.enabled = false;//如果有面向相机，需要关闭面向相机
 
             Collider cd = gameObject.GetComponent<Collider>();//将trigger变成collider
             cd.isTrigger = false;
 
-            transform.position = interactor.pickPosition.transform.position ;
+            transform.position = interactor.pickPosition.transform.position;
             fixedJoint = gameObject.AddComponent<FixedJoint>();
             gameObject.GetComponent<Rigidbody>().useGravity = true;
             fixedJoint.breakForce = 200;
             fixedJoint.connectedBody = interactor.GetComponent<Rigidbody>();
-
         }
     }
 
@@ -42,7 +43,7 @@ public class PickIObject : InteractorObject
 
             rb.useGravity = true;
             rb.isKinematic = false;
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            //rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
         }
         catch { }
@@ -57,6 +58,8 @@ public class PickIObject : InteractorObject
             Rigidbody rb = gameObject.GetComponent<Rigidbody>();
             //rb.AddForce(transform.up * breakForce / 10);
 
+            //回调交互器的断开交互函数
+            interactor.tryToStopInteractor(this);
         }
     }
 }
