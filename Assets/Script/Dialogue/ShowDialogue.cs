@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ShowDialogue : MonoBehaviour
 {
-    public string NPCid;
-    public float normalShowCD;
+    public string NPCid; 
+    public float normalShowCD;//通用说话文本显示速度
     public List<float> extraShowCD_time;
     public List<char> extraShowCD_char;
     DialogDataReader data;
@@ -124,7 +124,7 @@ public class ShowDialogue : MonoBehaviour
         if (stringShowIndex >= data.nowContent.Length)//已经显示完
         {
             //有选项的时候就只能点击选项，没选项时候都可以点
-            if (chooseIndex < 0 || data.chooseEnter.Count==0 || (chooseIndex >= 0 && chooseIndex < data.chooseEnter.Count))
+            if ((chooseIndex >= 0 && chooseIndex < data.chooseEnter.Count) || data.chooseEnter.Count == 0)
             {
                 stringShowIndex = 0;
                 data.NextDialogue(chooseIndex);

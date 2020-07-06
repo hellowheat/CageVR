@@ -13,11 +13,6 @@ public class DialogueIObject : InteractorObject
 
     public override void beInteractorEnter(Interactor interactor, RaycastHit hit)
     {
-
-    }
-
-    public override void beInteractorExit(Interactor interactor)
-    {
         if (showDialogue)
         {
             if (showDialogue.isDialogueEnd)
@@ -29,5 +24,11 @@ public class DialogueIObject : InteractorObject
                 showDialogue.clickDialog(-1);
             }
         }
+        interactor.tryToStopInteractor(this);
+    }
+
+    public override void beInteractorExit(Interactor interactor)
+    {
+        
     }
 }

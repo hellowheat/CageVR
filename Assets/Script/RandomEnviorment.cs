@@ -6,7 +6,7 @@ public class RandomEnviorment : MonoBehaviour
 {
     [Header("Bron Setting")]
     public int seed;//随机种子
-    public float roadInnerWidth;//道路内宽度
+   // public float roadInnerWidth;//道路内宽度
     public float roadOuterWidth;//道路外宽度
     public float mapWidth;//地图宽度
     public float offsetZ;//高度偏移
@@ -14,6 +14,7 @@ public class RandomEnviorment : MonoBehaviour
     [Header("Bron Object")]
     public GameObject[] randomType;
     public float[] randomIdNumber;//每种随机数量
+    public float[] nearCenter;//靠近中心距离
     public float[] awayCenter;//远离中心距离，此项控制其不在道路中心生成，树不会长在路中间
     Transform box;
     void Start()
@@ -42,7 +43,7 @@ public class RandomEnviorment : MonoBehaviour
             {
                 for (int j = 0; j < randomIdNumber[i]; j++)
                 {
-                    if (awayCenter[i] >= roadInnerWidth / 2) continue;//离道路中心距离大于道路宽度，不用生成
+                    if (awayCenter[i] >= nearCenter[i]) continue;//离道路中心距离大于道路宽度，不用生成
                     GameObject gb = Instantiate(randomType[i]);
                     gb.transform.parent = box;
                     gb.transform.Rotate(Vector3.up, Random.Range(0, 290));
@@ -69,38 +70,12 @@ public class RandomEnviorment : MonoBehaviour
                         }
                     }*/
                     int ranArea = randBronArea(hasDir);
-                    Vector2 pos = randBronInArea(ranArea,awayCenter[i]);
+                    Vector2 pos = randBronInArea(ranArea,nearCenter[i],awayCenter[i]);
                     gb.transform.localPosition = new Vector3(pos.x, 0, pos.y);
                 }
 
             }
         }
-    }
-    
-    int calcArea(float posX,float posZ)
-    {
-        int area = -1;
-        if(Mathf.Abs(posZ) < roadInnerWidth/2 && posX >= roadOuterWidth/2)
-        {
-            area = 0;
-        }
-        else if (Mathf.Abs(posZ) < roadInnerWidth/2 && posX <= -roadOuterWidth/2)
-        {
-            area = 1;
-        }
-        else if (Mathf.Abs(posX) < roadInnerWidth / 2 && posZ >= roadOuterWidth / 2)
-        {
-            area = 2;
-        }
-        else if (Mathf.Abs(posX) < roadInnerWidth / 2 && posZ <= -roadOuterWidth / 2)
-        {
-            area = 3;
-        }else if((Mathf.Abs(posX) <= roadInnerWidth/2 && Mathf.Abs(posZ) <roadOuterWidth/2) ||
-            (Mathf.Abs(posX) <= roadInnerWidth / 2 && Mathf.Abs(posZ) < roadOuterWidth / 2))
-        {
-            return 4;
-        }
-            return area;
     }
 
     int randBronArea(bool[] hasDir)
@@ -120,40 +95,40 @@ public class RandomEnviorment : MonoBehaviour
         return 0;
     }
 
-    Vector2 randBronInArea(int areaIndex,float awayC)
+    Vector2 randBronInArea(int areaIndex,float nearC,float awayC)
     {
         Vector2 pos = new Vector2();
         if (areaIndex == 0)
         {
             pos.x = Random.Range(roadOuterWidth / 2, mapWidth / 2);
             pos.y = Random.value>=0.5f?
-                Random.Range(awayC, roadInnerWidth / 2):
-                Random.Range(-roadInnerWidth / 2, -awayC);
+                Random.Range(awayC, nearC):
+                Random.Range(-nearC, -awayC);
         }else if(areaIndex == 1)
         {
             pos.x = Random.Range(-mapWidth / 2, -roadOuterWidth / 2);
             pos.y = Random.value>=0.5f?
-                Random.Range(awayC, roadInnerWidth / 2):
-                Random.Range(-roadInnerWidth / 2, -awayC);
+                Random.Range(awayC, nearC):
+                Random.Range(-nearC, -awayC);
         }else if(areaIndex == 2)
         {
             pos.x =Random.value>=0.5f?
-                pos.x = Random.Range(-roadInnerWidth / 2, -awayC):
-                pos.x = Random.Range(awayC, roadInnerWidth / 2);
+                pos.x = Random.Range(-nearC, -awayC):
+                pos.x = Random.Range(awayC, nearC);
             pos.y = Random.Range(roadOuterWidth / 2, mapWidth / 2);
         }else if(areaIndex == 3)
         {
             pos.x = Random.value >= 0.5f ?
-                pos.x = Random.Range(-roadInnerWidth / 2, -awayC) :
-                pos.x = Random.Range(awayC, roadInnerWidth / 2);
+                pos.x = Random.Range(-nearC, -awayC) :
+                pos.x = Random.Range(awayC, nearC);
             pos.y = Random.Range(-mapWidth / 2, -roadOuterWidth / 2);
         }else if (areaIndex == 4)
         {
             while (true)
             {
                 pos.x = Random.Range(-roadOuterWidth / 2, roadOuterWidth / 2);
-                if (Mathf.Abs(pos.x) <= roadInnerWidth) pos.y = Random.Range(-roadOuterWidth / 2, roadOuterWidth / 2);
-                else pos.y = Random.Range(-roadInnerWidth / 2, roadInnerWidth / 2);
+                if (Mathf.Abs(pos.x) <= nearC) pos.y = Random.Range(-roadOuterWidth / 2, roadOuterWidth / 2);
+                else pos.y = Random.Range(-nearC, nearC);
                 if(Mathf.Abs(pos.x) > awayC && Mathf.Abs(pos.y) > awayC)
                 {
                     break;

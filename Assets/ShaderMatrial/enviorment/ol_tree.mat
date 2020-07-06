@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ol_tree
-  m_Shader: {fileID: 4800000, guid: fa379a53939f22046bd2daa79d8c06f6, type: 3}
+  m_Shader: {fileID: 4800000, guid: d84ff4675c2112940a192448531d7d36, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -71,9 +71,9 @@ Material:
     - _Parallax: 0.02
     - _Shadow1_Depth: 1
     - _Shadow1_Radio: 0.1
-    - _Shadow2_Depth: 0.75
+    - _Shadow2_Depth: 1
     - _Shadow2_Radio: -0.5
-    - _Shadow3_Depth: 0.4
+    - _Shadow3_Depth: 0.722
     - _Shadow3_Radio: 0.3
     - _Size: 1
     - _SmoothnessTextureChannel: 0

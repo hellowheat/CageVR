@@ -20,8 +20,8 @@ public class CanBeBreak : MonoBehaviour
         if (myrb != null) Debug.Log(myrb.velocity+",my,"+ myrb.velocity.magnitude);
         if (crb != null) Debug.Log(crb.velocity+",collision" + crb.velocity.magnitude);
 
-        if ((myrb != null && myrb.velocity.magnitude >= speedThreashold))
-           // || (crb != null && crb.velocity.magnitude >= speedThreashold))
+        if ((myrb != null && myrb.velocity.magnitude >= speedThreashold)
+            || (crb != null && crb.velocity.magnitude >= speedThreashold*2))
         {
             beBreak();
         }

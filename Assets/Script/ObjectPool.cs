@@ -21,6 +21,7 @@ public class ObjectPool
     public GameObject create(Vector3 position,Vector3 dirc)
     {
         if (outNumber >= maxOutNumber) return null;
+        outNumber++;
         GameObject outGB;
         if (pools.Count > 0)
         {
@@ -41,5 +42,6 @@ public class ObjectPool
     {
         gb.SetActive(false);
         pools.Add(gb);
+        outNumber--;
     }
 }
