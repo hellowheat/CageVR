@@ -42,7 +42,7 @@ public class InteractorObject: MonoBehaviour
     }
 
     //被指向时
-    public void bePointEnter(Interactor interactor, RaycastHit hit)
+    public virtual void bePointEnter(Interactor interactor, RaycastHit hit)
     {
         if (pointMaterial)
         {
@@ -51,7 +51,7 @@ public class InteractorObject: MonoBehaviour
     }
 
     //被取消指向时
-    public void bePointExit(Interactor interactor)
+    public virtual void bePointExit(Interactor interactor)
     {
         if (noramlMaterial)
         {

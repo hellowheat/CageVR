@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PickIObject : InteractorObject
 {
     FixedJoint fixedJoint;
     FaceCamera fc;
+    Rigidbody rb;
 
     private Interactor interactor;//主动跟自己交互的交互器
+    bool interactorEnd = false;
 
     public override void Start()
     {
         base.Start();
         fc = GetComponent<FaceCamera>();
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     public override void beInteractorEnter(Interactor interactor,RaycastHit hit)
@@ -25,11 +29,21 @@ public class PickIObject : InteractorObject
             Collider cd = gameObject.GetComponent<Collider>();//将trigger变成collider
             cd.isTrigger = false;
 
-            transform.position = interactor.pickPosition.transform.position;
-            fixedJoint = gameObject.AddComponent<FixedJoint>();
-            gameObject.GetComponent<Rigidbody>().useGravity = true;
-            fixedJoint.breakForce = 200;
-            fixedJoint.connectedBody = interactor.GetComponent<Rigidbody>();
+
+            interactorEnd = false;
+            if(rb)rb.useGravity = false;
+            
+            transform.DOMove(interactor.pickPosition.transform.position, 0.1f).OnComplete(()=> {
+                if(interactorEnd == false)
+                {
+                    fixedJoint = gameObject.AddComponent<FixedJoint>();
+                    if (rb == null) rb = GetComponent<Rigidbody>();
+                    rb.useGravity = true;
+                    fixedJoint.breakForce = 200;
+                    fixedJoint.connectedBody = interactor.GetComponent<Rigidbody>();
+                }
+            });
+            
         }
     }
 
@@ -37,17 +51,20 @@ public class PickIObject : InteractorObject
     {
         try
         {
-            fixedJoint.breakForce = 0;
-            if (fc) fc.enabled = true;
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            interactorEnd = true;
 
-            rb.useGravity = true;
-            rb.isKinematic = false;
-            //rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-            rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
+            fixedJoint.breakForce = 0;
+
+            if (fc) fc.enabled = true;
+
+            if (rb)
+            {
+                rb.useGravity = true;
+                rb.isKinematic = false;
+                rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
+            }
         }
         catch { }
-       // Destroy(gameObject.GetComponent<FixedJoint>()) ;
     }
 
     private void OnJointBreak(float breakForce)

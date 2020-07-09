@@ -17,8 +17,6 @@ public class CanBeBreak : MonoBehaviour
         Rigidbody myrb = gameObject.GetComponent<Rigidbody>();
         Rigidbody crb = collision.transform.GetComponent<Rigidbody>();
         myrb.velocity = -myrb.velocity;
-        if (myrb != null) Debug.Log(myrb.velocity+",my,"+ myrb.velocity.magnitude);
-        if (crb != null) Debug.Log(crb.velocity+",collision" + crb.velocity.magnitude);
 
         if ((myrb != null && myrb.velocity.magnitude >= speedThreashold)
             || (crb != null && crb.velocity.magnitude >= speedThreashold*2))

@@ -26,7 +26,6 @@ namespace Valve.VR.Extras
             {
                 GameObject go = GameObject.Instantiate(prefab);
                 go.transform.position = attachPoint.transform.position;
-
                 joint = go.AddComponent<FixedJoint>();
                 joint.connectedBody = attachPoint;
             }

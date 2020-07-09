@@ -15,3 +15,4 @@ interactor_choose3:选择3
 interactor_choose4:选择4
 interactor_choose5:选择5
 interactor_choose6:选择6
+interactor_Move:移动到此处
