@@ -25,14 +25,6 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean Teleport
-        {
-            get
-            {
-                return SteamVR_Actions.default_Teleport;
-            }
-        }
-        
         public virtual SteamVR_Action_Boolean GrabPinch
         {
             get
@@ -105,35 +97,27 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean MoveForward
+        public virtual SteamVR_Action_Boolean Teleport
         {
             get
             {
-                return SteamVR_Actions.default_MoveForward;
+                return SteamVR_Actions.default_Teleport;
             }
         }
         
-        public virtual SteamVR_Action_Boolean MoveBack
+        public virtual SteamVR_Action_Boolean TurnLeft
         {
             get
             {
-                return SteamVR_Actions.default_MoveBack;
+                return SteamVR_Actions.default_TurnLeft;
             }
         }
         
-        public virtual SteamVR_Action_Boolean MoveLeft
+        public virtual SteamVR_Action_Boolean TurnRight
         {
             get
             {
-                return SteamVR_Actions.default_MoveLeft;
-            }
-        }
-        
-        public virtual SteamVR_Action_Boolean MoveRight
-        {
-            get
-            {
-                return SteamVR_Actions.default_MoveRight;
+                return SteamVR_Actions.default_TurnRight;
             }
         }
         
