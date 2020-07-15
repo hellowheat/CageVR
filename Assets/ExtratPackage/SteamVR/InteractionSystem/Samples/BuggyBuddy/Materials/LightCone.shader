@@ -4,10 +4,10 @@ Shader "FX/LightCone" {
 	Properties{
 		_TintColor("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 		_InvFade("Soft Particles Factor", Range(0.01,3.0)) = 1.0
-		_Rim ("rim power", Range(0,10)) = 1.0
+		_Rim("rim power", Range(0,10)) = 1.0
 	}
 
-		Category{
+	Category{
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Blend SrcAlpha One
 		ColorMask RGB
@@ -26,25 +26,25 @@ Shader "FX/LightCone" {
 #include "UnityCG.cginc"
 
 		sampler2D _MainTex;
-	fixed4 _TintColor;
-	uniform fixed _BWEffectOn;
+		fixed4 _TintColor;
+		uniform fixed _BWEffectOn;
 
-	struct appdata_t {
-		float4 vertex : POSITION;
-		float3 normal : NORMAL;
-		fixed4 color : COLOR;
-		fixed4 viewDir : TEXCOORD0;
-	};
+		struct appdata_t {
+			float4 vertex : POSITION;
+			float3 normal : NORMAL;
+			fixed4 color : COLOR;
+			fixed4 viewDir : TEXCOORD0;
+		};
 
-	struct v2f {
-		float4 vertex : SV_POSITION;
-		fixed4 color : COLOR;
-#ifdef SOFTPARTICLES_ON
-		float4 projPos : TEXCOORD0;
-#endif
-		float3 normal : NORMAL;
-		float3 viewDir : TEXCOORD1;
-	};
+		struct v2f {
+			float4 vertex : SV_POSITION;
+			fixed4 color : COLOR;
+			#ifdef SOFTPARTICLES_ON
+			float4 projPos : TEXCOORD0;
+			#endif
+			float3 normal : NORMAL;
+			float3 viewDir : TEXCOORD1;
+		};
 
 
 	v2f vert(appdata_t v)

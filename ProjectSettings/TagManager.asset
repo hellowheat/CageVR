@@ -11,6 +11,9 @@ TagManager:
   - WallMask
   - MaskEnterTrigger
   - MinMap
+  - projectile
+  - FxTemporaire
+  - CanMoveTo
   layers:
   - Default
   - TransparentFX
