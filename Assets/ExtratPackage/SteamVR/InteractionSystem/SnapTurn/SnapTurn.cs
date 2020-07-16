@@ -20,7 +20,8 @@ namespace Valve.VR.InteractionSystem
         public GameObject rotateRightFX;
         public GameObject rotateLeftFX;
 
-        public SteamVR_Action_Boolean snapLeftAction = SteamVR_Input.GetBooleanAction("SnapTurnLeft");
+        public SteamVR_Action_Boolean snapLeftAction = SteamVR_Input.GetBooleanAction("TurnLeft");
+        public SteamVR_Action_Boolean snapLeftAction_new = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("TurnLeft");
         public SteamVR_Action_Boolean snapRightAction = SteamVR_Input.GetBooleanAction("SnapTurnRight");
 
         public bool fadeScreen = true;
@@ -55,8 +56,7 @@ namespace Valve.VR.InteractionSystem
         private void Update()
         {
             Player player = Player.instance;
-
-            if (canRotate && snapLeftAction != null && snapRightAction != null && snapLeftAction.activeBinding && snapRightAction.activeBinding)
+            if (canRotate && snapLeftAction != null && snapRightAction != null)
             {
                 //only allow snap turning after a quarter second after the last teleport
                 if (Time.time < (teleportLastActiveTime + canTurnEverySeconds))
@@ -75,8 +75,8 @@ namespace Valve.VR.InteractionSystem
                     && player.leftHand.currentAttachedTeleportManager.teleportAllowed);
 
 
-                bool leftHandTurnLeft = snapLeftAction.GetStateDown(SteamVR_Input_Sources.LeftHand) && leftHandValid;
-                bool rightHandTurnLeft = snapLeftAction.GetStateDown(SteamVR_Input_Sources.RightHand) && rightHandValid;
+                bool leftHandTurnLeft = snapLeftAction_new.GetStateDown(SteamVR_Input_Sources.LeftHand) && leftHandValid;
+                bool rightHandTurnLeft = snapLeftAction_new.GetStateDown(SteamVR_Input_Sources.RightHand) && rightHandValid;
 
                 bool leftHandTurnRight = snapRightAction.GetStateDown(SteamVR_Input_Sources.LeftHand) && leftHandValid;
                 bool rightHandTurnRight = snapRightAction.GetStateDown(SteamVR_Input_Sources.RightHand) && rightHandValid;
