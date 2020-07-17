@@ -77,16 +77,15 @@ public class VRMoveAction : MonoBehaviour
 
     public void MoveBack()
     {
-        Vector3 offsetDir = Player.transform.forward * -1;
+        Vector3 offsetDir = Camera.main.transform.forward * -1;
         offsetDir.y = 2;
 
         RaycastHit backHit;
-        float[] offsetDis = { 3, 2, 1 };
+        float[] offsetDis = { 6, 4, 2, 1 };
         for(int i = 0; i < offsetDis.Length; i++)
         {
             Vector3 offsetPos = Player.transform.position + offsetDir.normalized * offsetDis[i];
             Physics.Raycast(offsetPos, Vector3.down, out backHit, maxDistance);
-            Debug.Log(hit.transform.name);
             if (backHit.transform.tag.CompareTo("CanMoveTo") == 0)
             {
                 moveEyeMask.StartMask(() =>

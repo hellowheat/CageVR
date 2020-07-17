@@ -58,7 +58,7 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/TurnBack",
+      "name": "/actions/default/in/MoveBack",
       "type": "boolean"
     },
     {
@@ -180,7 +180,7 @@
       "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
       "/actions/default/in/TurnLeft": "TurnLeft",
       "/actions/default/in/TurnRight": "TurnRight",
-      "/actions/default/in/TurnBack": "TurnBack"
+      "/actions/default/in/MoveBack": "MoveBack"
     }
   ]
 }

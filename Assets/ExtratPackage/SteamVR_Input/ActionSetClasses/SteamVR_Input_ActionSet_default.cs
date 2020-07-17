@@ -121,11 +121,11 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Boolean TurnBack
+        public virtual SteamVR_Action_Boolean MoveBack
         {
             get
             {
-                return SteamVR_Actions.default_TurnBack;
+                return SteamVR_Actions.default_MoveBack;
             }
         }
         

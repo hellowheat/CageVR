@@ -48,39 +48,6 @@ public class Interactor : MonoBehaviour
         StartCoroutine(checkPoint());
     }
 
-    //Test
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.T))
-        {
-            transform.position += transform.up * 10 *Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.G))
-        {
-            transform.position += -transform.up * 10 * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            transform.position += -transform.right* 10 * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.H))
-        {
-            transform.position += transform.right * 10 * Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            InteractorActionStart();
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            InteractorActionEnd();
-        }
-    }
 
     //交互器发生附近碰撞时回调函数
     void TriggerCallBack(Collider collider,InteractorTriggerEventType type)
@@ -116,8 +83,7 @@ public class Interactor : MonoBehaviour
         while (true)
         {
             Physics.Raycast(transform.position, transform.forward, out hit, pointDistance);
-           //if(hit.transform != null) Debug.Log("point " + hit.transform.name);
-            if(Physics.Raycast(transform.position, transform.forward, out hit, pointDistance) && hit.transform.GetComponent<InteractorObject>())//检测碰撞，并且碰撞的对象有InteractorObject
+            if (Physics.Raycast(transform.position, transform.forward, out hit, pointDistance) && hit.transform.GetComponent<InteractorObject>())//检测碰撞，并且碰撞的对象有InteractorObject
             {
                 savehit = hit;
                 InteractorObject interactorObject = hit.transform.GetComponent<InteractorObject>();

@@ -53,7 +53,7 @@ public class InteractorObject: MonoBehaviour
     //被取消指向时
     public virtual void bePointExit(Interactor interactor)
     {
-        if (noramlMaterial)
+        if (rd && noramlMaterial)
         {
             rd.material = noramlMaterial;
         }

@@ -9,7 +9,6 @@ enum MCFaceMapType
 
 public class MCFaceMap
 {
-    bool isInvaild = true;
 
     public MCFaceMap()
     {

@@ -201,7 +201,7 @@
                      "output" : "/actions/default/in/teleport"
                   },
                   "south" : {
-                     "output" : "/actions/default/in/turnback"
+                     "output" : "/actions/default/in/moveback"
                   },
                   "west" : {
                      "output" : "/actions/default/in/turnleft"
@@ -224,7 +224,7 @@
                      "output" : "/actions/default/in/teleport"
                   },
                   "south" : {
-                     "output" : "/actions/default/in/turnback"
+                     "output" : "/actions/default/in/moveback"
                   },
                   "west" : {
                      "output" : "/actions/default/in/turnleft"

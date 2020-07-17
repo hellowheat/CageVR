@@ -10,13 +10,24 @@ public class PickIObject : InteractorObject
     Rigidbody rb;
 
     private Interactor interactor;//主动跟自己交互的交互器
-    bool interactorEnd = false;
+    bool interactorEnd = true;
+    Vector3 lastPos;//上一帧的位置
 
     public override void Start()
     {
         base.Start();
         fc = GetComponent<FaceCamera>();
         rb = gameObject.GetComponent<Rigidbody>();
+        lastPos = transform.position;
+    }
+
+
+    void LateUpdate()
+    {
+        if (!interactorEnd)
+        {
+            lastPos = transform.position;
+        }
     }
 
     public override void beInteractorEnter(Interactor interactor,RaycastHit hit)
@@ -32,8 +43,13 @@ public class PickIObject : InteractorObject
 
             interactorEnd = false;
             if(rb)rb.useGravity = false;
-            
-            transform.DOMove(interactor.pickPosition.transform.position, 0.1f).OnComplete(()=> {
+
+            Vector3 goalMove = interactor.pickPosition.transform.position - (hit.point-transform.position);
+            Debug.Log("interactor :"+ interactor.pickPosition.transform.position +
+                ",goalMove:"+ goalMove + 
+                ",offsetMove:"+ (hit.point - transform.position));
+
+            transform.DOMove(goalMove, 0.1f).OnComplete(()=> {
                 if(interactorEnd == false)
                 {
                     fixedJoint = gameObject.AddComponent<FixedJoint>();
@@ -47,13 +63,18 @@ public class PickIObject : InteractorObject
         }
     }
 
+    private void Update()
+    {
+        if(transform.name.IndexOf("flower") != -1 && rb)Debug.Log(rb.velocity);
+    }
+
     public override void beInteractorExit(Interactor interactor)
     {
         try
         {
             interactorEnd = true;
-
-            fixedJoint.breakForce = 0;
+            Destroy(fixedJoint);
+           // fixedJoint.breakForce = 0;
 
             if (fc) fc.enabled = true;
 
@@ -61,7 +82,9 @@ public class PickIObject : InteractorObject
             {
                 rb.useGravity = true;
                 rb.isKinematic = false;
-                rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
+                //rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
+                rb.velocity = (transform.position - lastPos) / Time.deltaTime;
+                Debug.Log( "release velocity:"+rb.velocity);
             }
         }
         catch { }
