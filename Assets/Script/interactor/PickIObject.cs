@@ -65,7 +65,7 @@ public class PickIObject : InteractorObject
 
     private void Update()
     {
-        if(transform.name.IndexOf("flower") != -1 && rb)Debug.Log(rb.velocity);
+
     }
 
     public override void beInteractorExit(Interactor interactor)

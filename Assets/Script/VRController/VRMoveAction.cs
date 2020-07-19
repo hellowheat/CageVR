@@ -170,9 +170,9 @@ public class VRMoveAction : MonoBehaviour
             if (distance >= maxDistance) break;//超过最大长度
             if (highRotate > 45) break;//移动夹角大于45度也不用绘制了
         }
-
-        moveAnimator.SetBool("stop", beStop);
+        
         moveHit.SetActive(true);
+        moveAnimator.SetBool("stop", beStop);
         moveHit.transform.position = hit.point;
 
     }

@@ -13,6 +13,7 @@ public class Interactor : MonoBehaviour
     public bool useLine;//使用画线
     public Material lineMaterial;
     public float lineWidth;
+    public Vector3 lineOffset;
     [Header("pick")]
     public GameObject pickPosition;//手心拾取道具位置
 
@@ -40,8 +41,8 @@ public class Interactor : MonoBehaviour
             drawLine.material = lineMaterial;
             drawLine.positionCount = 2;
             drawLine.startWidth = drawLine.endWidth = lineWidth;
-            drawLine.SetPosition(0, transform.position);
-            drawLine.SetPosition(1, transform.position + transform.forward.normalized * pointDistance);
+            drawLine.SetPosition(0, transform.position + lineOffset);
+            drawLine.SetPosition(1, transform.position + transform.forward.normalized * pointDistance + lineOffset);
             line.transform.SetParent(transform);
         }
 

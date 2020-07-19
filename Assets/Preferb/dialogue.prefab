@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 0}
+  pointMaterial: {fileID: 0}
   interactorPath: 
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
+  pointMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
   interactorPath: choose
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
@@ -943,7 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
+  pointMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
   interactorPath: choose
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
@@ -1085,7 +1085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
+  pointMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
   interactorPath: choose
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
+  pointMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
   interactorPath: choose
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
+  pointMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
   interactorPath: choose
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
@@ -1699,7 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab43e2db192466c4b9f850b79e89c0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
+  pointMaterial: {fileID: 2100000, guid: 7a219ed8c30dce44fac4b35d8dbf564c, type: 2}
   interactorPath: choose
   interactorInfo: 
   showDialogue: {fileID: 8331683817938501428}
