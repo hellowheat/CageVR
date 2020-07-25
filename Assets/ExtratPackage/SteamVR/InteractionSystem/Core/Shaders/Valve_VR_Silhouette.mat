@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Valve_VR_Silhouette
-  m_Shader: {fileID: 4800000, guid: 0c1cf10ea69e60e4f9eb8955749f88ec, type: 3}
+  m_Shader: {fileID: 4800000, guid: 670918a431f67ff48896d77647c272d4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - g_flCornerAdjust: 0.69
-    - g_flOutlineWidth: 0.0092
+    - g_flCornerAdjust: 0.664
+    - g_flOutlineWidth: 0.0078
     m_Colors:
     - g_vOutlineColor: {r: 0.96860325, g: 1, b: 0, a: 1}

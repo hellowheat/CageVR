@@ -11,14 +11,19 @@ public class PickIObject : InteractorObject
 
     private Interactor interactor;//主动跟自己交互的交互器
     bool interactorEnd = true;
-    Vector3 lastPos;//上一帧的位置
+    Vector3 lastPos;
+    Vector3[] lastMoveDis;//上几帧的位置
+    float[] lastTime;//上几帧的时间
 
     public override void Start()
     {
         base.Start();
         fc = GetComponent<FaceCamera>();
         rb = gameObject.GetComponent<Rigidbody>();
+        lastMoveDis = new Vector3[3];
+        lastTime = new float[3];
         lastPos = transform.position;
+        for (int i=0;i< lastMoveDis.Length;i++) lastMoveDis[i] = transform.position;
     }
 
 
@@ -26,6 +31,13 @@ public class PickIObject : InteractorObject
     {
         if (!interactorEnd)
         {
+            for (int i = 0; i < lastMoveDis.Length - 1; i++) 
+            {
+                lastMoveDis[i] = lastMoveDis[i + 1];
+                lastTime[i] = lastTime[i + 1];
+            }
+            lastMoveDis[lastMoveDis.Length - 1] = transform.position - lastPos ;
+            lastTime[lastMoveDis.Length - 1] = Time.deltaTime;
             lastPos = transform.position;
         }
     }
@@ -83,7 +95,12 @@ public class PickIObject : InteractorObject
                 rb.useGravity = true;
                 rb.isKinematic = false;
                 //rb.velocity = interactor.gameObject.GetComponent<Rigidbody>().velocity;
-                rb.velocity = (transform.position - lastPos) / Time.deltaTime;
+                Vector3 sumVelocity = Vector3.zero ;
+                for(int i=0; i < lastMoveDis.Length; i++)
+                {
+                    sumVelocity += lastMoveDis[i] / lastTime[i];
+                }
+                rb.velocity = sumVelocity / lastMoveDis.Length * 2;
                 Debug.Log( "release velocity:"+rb.velocity);
             }
         }

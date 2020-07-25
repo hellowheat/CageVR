@@ -42,7 +42,7 @@ public class VRMoveAction : MonoBehaviour
         linePool = new ObjectPool(line, lineBox.transform, 20);
 
         lineList = new List<GameObject>();
-
+        moveHit = Instantiate(moveHit, null);
         moveAnimator = moveHit.transform.Find("animation").GetComponent<Animator>();
     }
 

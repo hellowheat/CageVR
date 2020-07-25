@@ -8,6 +8,7 @@ public class OpenIObject : InteractorObject
     public GameObject doorAixs;
     public doorD doorDir=doorD.x;
     public float openAngle = 90;
+    public float peekAngle = 20;
     public int openTurn = 1;
     public float openTime = 0.2f;
     Transform _lock;
@@ -49,6 +50,20 @@ public class OpenIObject : InteractorObject
                 {
                     isMoveEnd = true;
                 });
+        }
+    }
+
+    public void peekDoor()
+    {
+        if (isMoveEnd)
+        {
+            isDoorOpen = true;
+            interactorInfo = LanguageManager.getInstance().getLanguageString("interactor_" + DoorInteractorPath[1]);
+            isMoveEnd = false;
+            doorAixs.transform.DOLocalRotate(Vector3.up * peekAngle, openTime).OnComplete(() =>
+            {
+                isMoveEnd = true;
+            });
         }
     }
 
